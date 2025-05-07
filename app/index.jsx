@@ -1,27 +1,34 @@
 import { StyleSheet, View, Text } from 'react-native'
 import { Link } from 'expo-router'
 import { ThemedView, ThemedText, ThemedLogo, ThemedCard } from "../components/Theme"
+import { Spacer } from '../components/Spacer'
 
 
 const Home = () => {
   return (
     
-    <ThemedView>
-      <ThemedText> Hello </ThemedText>
+    <ThemedView style={styles.container}>
+      <ThemedLogo />
+      <Spacer />
 
-      <Link href="/about" style={ styles.link } > 
-        <ThemedText> About </ThemedText>
+      <ThemedText style={{ marginTop: 10, marginBottom: 30 }}>
+        Shelfie
+      </ThemedText>
+
+      <Link href="/login" style={styles.link}>
+        <ThemedText>Login</ThemedText>
       </Link>
 
-      <Link href="/contact" style={ styles.link } >
-        <ThemedText> Contact </ThemedText>
+      <Link href="/register" style={styles.link}>
+        <ThemedText>Register</ThemedText>
       </Link>
+
     </ThemedView>
 
   )
 }
 
-export default Home
+export default Home;
 
 const styles = StyleSheet.create({
   container: {

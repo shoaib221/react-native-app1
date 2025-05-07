@@ -1,10 +1,11 @@
 import { View } from 'react-native';
+import { ThemedView } from './Theme';
 
-const Spacer = ({ width = "100%", height = 40 }) => {
+export const Spacer = ({ width = "100%", height = 40 }) => {
   return (
-    <View style={{ width, height }} />
+    <ThemedView style={{ width, height }} />
   )
 }
 
-export default Spacer;
+
 
