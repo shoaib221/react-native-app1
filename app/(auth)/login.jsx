@@ -5,7 +5,6 @@ import { useUser } from '../../hooks/useUser'
 import { ThemedView, ThemedText, ThemedButton, ThemedTextInput } from '../../components/Theme'
 import  { Spacer }  from '../../components/Spacer'
 import { Colors } from '../../constants/Colors'
-import { View } from 'react-native-web'
 
 const Login = () => {
   const [email, setEmail] = useState("")
@@ -29,6 +28,10 @@ const Login = () => {
   return (
     <ThemedView style={styles.container}>
       
+      <ThemedText title={true} style={styles.title}>
+        Log Into Your Account
+      </ThemedText>
+
       <Spacer />
 
       <ThemedTextInput 

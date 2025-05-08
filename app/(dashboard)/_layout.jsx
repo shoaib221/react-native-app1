@@ -3,12 +3,13 @@ import { useColorScheme } from "react-native"
 import { useEffect } from 'react'
 import { Ionicons } from "@expo/vector-icons"
 import { Button } from "react-native-web"
+import { Slot } from 'expo-router'
 
 
-import { Colors } from "../../constants/Colors"
-import { ThemedButton, ThemedText, ThemedLoader } from "../../components/Theme" 
+import { Colors } from "../../constants/Colors" 
+import { ThemedButton, ThemedText, ThemedLoader, ThemedView } from "../../components/Theme" 
 import { useUser } from "../../hooks/useUser" 
-import { Spacer } from "../../components/Spacer"
+import { Spacer } from "../../components/Spacer" 
 
 
 const UserOnly = ({ children }) => {
@@ -22,29 +23,27 @@ const UserOnly = ({ children }) => {
     console.log( "user only" )
   }, [user, authChecked])
 
-  if( !authChecked ) return (
-    <ThemedLoader />
-  )
-  return children ;
+  if( !authChecked ) return ( 
+    <ThemedLoader /> 
+  ) 
+
+  return children;
   
-}
+} 
 
 
-export default function DashboardLayout() { 
+export default function DashboardLayout(  ) { 
   const colorScheme = useColorScheme() 
   const theme = Colors[colorScheme] ?? Colors.light 
   const { user, logout } = useUser() 
-
+  
 
   return (
     <UserOnly>
-      <Spacer />
-      <Spacer />
-      <ThemedButton onPress={logout} 
-        style={{ width: 120 }}
-      >
+      <ThemedButton onPress={logout} style={{ width: 120 }} >
         <ThemedText> Logout </ThemedText>
       </ThemedButton>
+      
       <Tabs
         screenOptions={{
           headerShown: false,
@@ -89,7 +88,7 @@ export default function DashboardLayout() {
         />
 
       </ Tabs>
-        
-    </ UserOnly>
+    </ UserOnly >
+    
   )
 }

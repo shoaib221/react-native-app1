@@ -11,7 +11,7 @@ export default function RootLayout() {
 
   return (
     <UserProvider>
-      
+      <BooksProvider>
         <StatusBar value="auto" />
         <Stack screenOptions={{
           headerStyle: { backgroundColor: theme.navBackground },
@@ -27,7 +27,7 @@ export default function RootLayout() {
           {/* Book details screen */}
           {/* <Stack.Screen name="books/[id]" options={} */}
         </Stack>
-      
+      </BooksProvider>
     </UserProvider>
   )
 }

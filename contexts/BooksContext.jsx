@@ -12,36 +12,6 @@ export function BooksProvider({children}) {
   const [books, setBooks] = useState([])
   const { user } = useUser()
 
-  async function fetchBooks() {
-    try {
-      const response = await databases.listDocuments(
-        DATABASE_ID, 
-        COLLECTION_ID,
-        [
-          Query.equal('userId', user.$id)
-        ]
-      )
-
-      setBooks(response.documents)
-      console.log(response.documents)
-    } catch (error) {
-      console.error(error.message)
-    }
-  }
-
-  async function fetchBookById(id) {
-    try {
-      const response = await databases.getDocument(
-        DATABASE_ID,
-        COLLECTION_ID,
-        id
-      )
-
-      return response
-    } catch (error) {
-      console.log(error.message)
-    }
-  }
 
   async function createBook(data) {
     try {
@@ -56,24 +26,70 @@ export function BooksProvider({children}) {
           Permission.delete(Role.user(user.$id)),
         ]
       )
+      console.log( "success" )
+    } catch (error) {
+      console.log( "create book " + error.message)
+    }
+  }
+
+  async function fetchBooks() {
+    try {
+      const response = await databases.listDocuments(
+        DATABASE_ID, 
+        COLLECTION_ID,
+        [
+          Query.equal('userId', user.$id)
+        ]
+      )
+
+      setBooks(response.documents)
+      
+    } catch (error) {
+      console.error(error.message)
+    }
+  }
+
+  async function fetchBookById(id) {
+    try {
+      const response = await databases.getDocument(
+        DATABASE_ID,
+        COLLECTION_ID,
+        id
+      )
+      return response
     } catch (error) {
       console.log(error.message)
     }
   }
 
-  async function deleteBook(id) {
+
+  return (
+    <BooksContext.Provider value={{ books,  createBook, fetchBooks, fetchBookById }} >
+      {children}
+    </BooksContext.Provider>
+  )
+}
+
+/*
+
+
+
+async function deleteBook(id) {
     try {
       await databases.deleteDocument(
         DATABASE_ID,
         COLLECTION_ID,
         id,
       )
+      fetchBooks()
     } catch (error) {
       console.log(error.message)
     }
   }
 
-  useEffect(() => {
+
+
+useEffect(() => {
     let unsubscribe
     const channel = `databases.${DATABASE_ID}.collections.${COLLECTION_ID}.documents`
 
@@ -103,11 +119,7 @@ export function BooksProvider({children}) {
 
   }, [user])
 
-  return (
-    <BooksContext.Provider 
-      value={{ books, fetchBooks, fetchBookById, createBook, deleteBook }}
-    >
-      {children}
-    </BooksContext.Provider>
-  )
-}
+
+
+
+  */
