@@ -26,9 +26,9 @@ export function BooksProvider({children}) {
           Permission.delete(Role.user(user.$id)),
         ]
       )
-      console.log( "success" )
+      console.log( "book created" )
     } catch (error) {
-      console.log( "create book " + error.message)
+      console.log( "could not create book " + error.message)
     }
   }
 
@@ -62,30 +62,27 @@ export function BooksProvider({children}) {
     }
   }
 
-
-  return (
-    <BooksContext.Provider value={{ books,  createBook, fetchBooks, fetchBookById }} >
-      {children}
-    </BooksContext.Provider>
-  )
-}
-
-/*
-
-
-
-async function deleteBook(id) {
+  async function deleteBook(id) {
     try {
       await databases.deleteDocument(
         DATABASE_ID,
         COLLECTION_ID,
         id,
       )
-      fetchBooks()
     } catch (error) {
       console.log(error.message)
     }
   }
+
+
+  return (
+    <BooksContext.Provider value={{ books,  createBook, fetchBooks, fetchBookById, deleteBook }} >
+      {children}
+    </BooksContext.Provider>
+  )
+}
+
+/*
 
 
 
