@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
     },
     delete: {
       marginTop: 40,
-      backgroundColor: Colors.warning,
       width: 200,
       alignSelf: "center",
     },

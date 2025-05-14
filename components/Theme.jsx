@@ -1,28 +1,14 @@
 
 import { TextInput, Pressable, StyleSheet, useColorScheme, View, Text, Image } from 'react-native'
-import { Colors } from '../constants/Colors'
+import { Colors } from '../constants/Colors';
+import { useTheme } from '../hooks/useTheme';
 
 
-const styles = StyleSheet.create({
-    card: {
-      borderRadius: 5,
-      padding: 20
-    },
-    btn: {
-      backgroundColor: Colors.primary,
-      padding: 18,
-      borderRadius: 6,
-      marginVertical: 10
-    },
-    pressed: {
-      opacity: 0.5
-    },
-});
-
-const colorScheme = 'light' ;
-const theme = Colors[colorScheme];
 
 export const ThemedCard = ({ style, ...props }) => { 
+  const { themeColor } = useTheme()
+  const theme = Colors[themeColor]
+
   
   return ( 
     <View 
@@ -34,24 +20,33 @@ export const ThemedCard = ({ style, ...props }) => {
 
 import logo from '../assets/favicon.png'
 
-export const ThemedLogo = () => {
+export const ThemedLogo = () => { 
+  const { themeColor } = useTheme() 
+  const theme = Colors[themeColor] 
 
-  return (
-    <Image source={logo} />
-  )
-}
+
+  return ( 
+    <Image source={logo} /> 
+  ) 
+} 
 
 export const ThemedView = ( { style, ...props} ) => {
-    
+  const { themeColor } = useTheme()
+  const theme = Colors[themeColor]
+  
+  
     return (
-      <View style={ style }
+      <View style={ [ theme, style ] }
         {...props}
       />
     )
 }
 
 
-export const ThemedText = ({ style, title = false, ...props }) => {
+export const ThemedText = ({ style,  ...props }) => {
+  const { themeColor } = useTheme()
+  const theme = Colors[themeColor]
+
 
     return (
       <Text 
@@ -62,6 +57,9 @@ export const ThemedText = ({ style, title = false, ...props }) => {
 }
 
 export const ThemedButton =({ style, ...props }) => {
+  const { themeColor } = useTheme()
+  const theme = Colors[themeColor]
+
 
   return (
     <Pressable 
@@ -73,6 +71,9 @@ export const ThemedButton =({ style, ...props }) => {
 
 
 export function ThemedTextInput({ style, ...props }) {
+  const { themeColor } = useTheme()
+  const theme = Colors[themeColor]
+
 
   return (
     <TextInput 
@@ -95,15 +96,34 @@ import { ActivityIndicator } from 'react-native'
 
 
 export const ThemedLoader = () => {
+  const { themeColor } = useTheme()
+  const theme = Colors[themeColor]
+
 
   return ( 
     <ThemedView style={{ 
       flex: 1, 
       justifyContent: "center", 
       alignItems: "center" 
-    }}>
-      <ActivityIndicator size="large" color={theme.text} />
-    </ThemedView>
+    }}> 
+      <ActivityIndicator size="large" color={theme.text} /> 
+    </ThemedView> 
   )
 }
 
+
+const styles = StyleSheet.create({
+    card: {
+      borderRadius: 5,
+      padding: 20
+    },
+    btn: {
+      backgroundColor: Colors.primary,
+      padding: 4,
+      borderRadius: 4,
+      marginVertical: 4
+    },
+    pressed: {
+      opacity: 0.5
+    },
+});

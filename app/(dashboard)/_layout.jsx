@@ -9,6 +9,7 @@ import { Slot } from 'expo-router'
 import { Colors } from "../../constants/Colors" 
 import { ThemedButton, ThemedText, ThemedLoader, ThemedView } from "../../components/Theme" 
 import { useUser } from "../../hooks/useUser" 
+import { useTheme } from "../../hooks/useTheme"
 import { Spacer } from "../../components/Spacer" 
 
 
@@ -33,15 +34,20 @@ const UserOnly = ({ children }) => {
 
 
 export default function DashboardLayout(  ) { 
-  const colorScheme = useColorScheme() 
-  const theme = Colors[colorScheme] ?? Colors.light 
+  
   const { user, logout } = useUser() 
+  const { themeColor, toggleTheme } = useTheme()
+  const theme = Colors[themeColor]
   
 
   return (
     <UserOnly>
       <ThemedButton onPress={logout} style={{ width: 120 }} >
         <ThemedText> Logout </ThemedText>
+      </ThemedButton>
+
+      <ThemedButton onPress={toggleTheme} style={{ width: 120 }} >
+        <ThemedText> {themeColor} </ThemedText>
       </ThemedButton>
       
       <Tabs
@@ -83,8 +89,8 @@ export default function DashboardLayout(  ) {
           )}} 
         />
         <Tabs.Screen 
-          name="books/[id]"
-          options={{ href: null }} 
+          name="book/[id]"
+          options={{ href: null  }} 
         />
 
       </ Tabs>
