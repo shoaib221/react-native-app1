@@ -7,10 +7,9 @@ import { useBooks } from '../../hooks/useBooks'
 
 
 
-const Books = () => {
+const Books =  () => {
 
   const { books, fetchBooks } = useBooks()
-  fetchBooks()
   const router = useRouter()
 
   return (

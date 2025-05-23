@@ -41,7 +41,7 @@ export default function DashboardLayout(  ) {
   
 
   return (
-    <UserOnly>
+    <>
       <ThemedButton onPress={logout} style={{ width: 120 }} >
         <ThemedText> Logout </ThemedText>
       </ThemedButton>
@@ -94,7 +94,7 @@ export default function DashboardLayout(  ) {
         />
 
       </ Tabs>
-    </ UserOnly >
     
+    </>
   )
 }

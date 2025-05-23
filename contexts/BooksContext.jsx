@@ -1,80 +1,60 @@
-import { createContext, useEffect, useState } from "react"
-import { databases, client } from "../lib/appwrite"
-import { ID, Permission, Query, Role } from "react-native-appwrite"
-import { useUser } from "../hooks/useUser"
-
-const DATABASE_ID = "68182deb001b2fcd5f79"
-const COLLECTION_ID = "68182e01002dc7f8c028"
 
 
-export const BooksContext = createContext()
+import { createContext, useEffect, useState } from "react";
+import { useUser } from "../hooks/useUser";
+
+
+export const BooksContext = createContext();
 
 
 export function BooksProvider({children}) {
-  const [books, setBooks] = useState([])
-  const { user } = useUser()
+  const [books, setBooks] = useState([]);
+  const { user } = useUser();
 
 
   async function createBook(data) {
     try {
-      await databases.createDocument(
-        DATABASE_ID,
-        COLLECTION_ID,
-        ID.unique(),
-        {...data, userId: user.$id},
-        [
-          Permission.read(Role.user(user.$id)),
-          Permission.update(Role.user(user.$id)),
-          Permission.delete(Role.user(user.$id)),
-        ]
-      )
-      console.log( "book created" )
-    } catch (error) {
-      console.log( "could not create book " + error.message)
-    }
-  }
+      const response = await fetch('YOUR_API_ENDPOINT', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-  async function fetchBooks() {
-    try {
-      const response = await databases.listDocuments(
-        DATABASE_ID, 
-        COLLECTION_ID,
-        [
-          Query.equal('userId', user.$id)
-        ]
-      )
-
-      setBooks(response.documents)
+      const result = await response.json();
       
+      console.log('Success:', result);
     } catch (error) {
-      console.error(error.message)
+      // Handle errors
+      console.error('Error:', error);
+    
     }
   }
+
+const fetchBooks = async () => {
+    try {
+      const response = await fetch('https://reactnative.dev/movies.json');
+      const json = await response.json();
+      console.log(json.movies);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      
+    }
+  };
 
   async function fetchBookById(id) {
-    try {
-      const response = await databases.getDocument(
-        DATABASE_ID,
-        COLLECTION_ID,
-        id
-      )
-      return response
-    } catch (error) {
-      console.log(error.message)
-    }
+    
   }
 
   async function deleteBook(id) {
-    try {
-      await databases.deleteDocument(
-        DATABASE_ID,
-        COLLECTION_ID,
-        id,
-      )
-    } catch (error) {
-      console.log(error.message)
-    }
+    
   }
+
+  useEffect(() => {
+    fetchBooks();
+  }, [] );
 
 
   return (
@@ -86,39 +66,67 @@ export function BooksProvider({children}) {
 
 /*
 
+// App.js
+import React, { useEffect, useState } from 'react';
+import { View, Text, Button } from 'react-native';
 
+const App = () => {
+  const [data, setData] = useState(null);
 
-useEffect(() => {
-    let unsubscribe
-    const channel = `databases.${DATABASE_ID}.collections.${COLLECTION_ID}.documents`
-
-    if (user) {
-      fetchBooks()
-
-      unsubscribe = client.subscribe(channel, (response) => {
-        const { payload, events } = response
-        console.log(events)
-
-        if (events[0].includes("create")) {
-          setBooks((prevBooks) => [...prevBooks, payload])
-        }
-
-        if (events[0].includes("delete")) {
-          setBooks((prevBooks) => prevBooks.filter((book) => book.$id !== payload.$id))
-        }
-      })
-
-    } else {
-      setBooks([])
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/data');
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
+  };
 
-    return () => {
-      if (unsubscribe) unsubscribe()
+  const postData = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: 'Hello from React Native!' }),
+      });
+      const json = await response.json();
+      console.log('Response from POST request:', json);
+    } catch (error) {
+      console.error('Error posting data:', error);
     }
+  };
 
-  }, [user])
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return (
+    <View>
+      {data && <Text>{data.message}</Text>}
+      <Button title="Fetch Data" onPress={fetchData} />
+      <Button title="Post Data" onPress={postData} />
+    </View>
+  );
+};
+
+export default App;
+
+const fetchBooks = async () => {
+    try {
+      const response = await fetch('https://reactnative.dev/movies.json');
+      const json = await response.json();
+      console.log(json.movies);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      
+    }
+  };
+
+*/
 
 
 
-
-  */

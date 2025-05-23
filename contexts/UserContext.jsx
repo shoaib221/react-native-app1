@@ -1,6 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import { account } from "../lib/appwrite";
-import { ID } from 'react-native-appwrite';
 
 export const UserContext = createContext();
 

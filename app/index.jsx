@@ -48,3 +48,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1
   }
 })
+
+// npm run web
+// port 8081
